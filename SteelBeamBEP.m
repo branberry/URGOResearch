@@ -36,16 +36,6 @@ y = GaussElimPenta(dm2, dm1, d0, dp1, dp2, f);
 x = (0:h:L)';
 y_exact = -b*d*rho*g/(24*E*I)*x.*(L^3 - 2.*L*x.^2 + x.^3);
 
-#ErrMax = 0;
-
-#for i = 0:h:L
-#  y_exact = -b*d*rho*g/(24*E*I)*i.^2.*(L - i).^2;
-#  AbsError = abs(y-y_exact);
-#  if (AbsError>ErrMax)
-#    ErrMax = AbsError;
-#  endif
-#endfor
-#ErrMax
 ErrMax = max(abs(y-y_exact))
 
 subplot(2,1,1);
