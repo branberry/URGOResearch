@@ -1,3 +1,5 @@
+using Plots
+
 L = 10; # length = 10 m
 b = 0.1; # width = 10 cm
 d = 0.05; # height = 5 cm
@@ -19,11 +21,11 @@ block_mass = block_rho*block_height*block_length*b;
 # Alternatively, we can compute the mass per unit length
 block_mass_per_unit = block_rho*block_height*g*b;
 
-n = 10; # number of subintervals on [0, L]
+n = 100; # number of subintervals on [0, L]
 h = L/n; # discretization spacing
 N = n + 1; # number of unknowns to be solved for
-A = spzeros(N,N); # generating a sparse matrix
-
+#A = spzeros(N,N); # generating a sparse matrix
+A = spzeros(N,N);
 # Define the RHS of the system
 f = -h^4/(E*I) * w * ones(N, 1);
 f[1] = 0;
@@ -53,14 +55,21 @@ A[N, N-1] = 0;
 A[N, N-2] = 0;
 A[N-1,N-2] = -4;
 A[N-1,N-3] = 1;
-
 # Solve for y
 y = A\f;
 x = ones(N,1);
 
+
 for i=1:N
-    x[i] = i * h;
+    x[i] = (i - 1) * h;
 end
+
 y_exact = -b*d*rho*g/(24*E*I)*x.^2.*(L - x).^2;
 ErrMax = maximum(abs.(y-y_exact))
+print("\n")
 display(ErrMax)
+print("\n")
+
+pyplot(leg=false, ticks=nothing)
+x = y = linspace(-5, 5, 40)
+zs = zeros(0,40)
