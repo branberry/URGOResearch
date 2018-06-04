@@ -67,8 +67,8 @@ gr()
 
 # initialize a 3D plot with 1 empty series
 plt = path3d(1, xlim=(0,10), ylim=(-.01,0), zlim=(-.05,0),
-                xlab = "x", ylab = "y", zlab = "z",
-                title = "Lorenz Attractor", marker = 1)
+                xlab = "Meters", ylab = "Displacement", zlab = "z",
+                title = "Both Ends Fixed (Class Project)", marker = 1)
 
 # build an animated gif, saving every 10th frame
 @gif for i=1:N
