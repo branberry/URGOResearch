@@ -59,10 +59,7 @@ A[N-1,N-3] = 1;
 y = A\f;
 x = ones(N,1);
 
-
-for i=1:N
-    x[i] = (i - 1) * h;
-end
+x = collect(0:h:L)
 
 y_exact = -b*d*rho*g/(24*E*I)*x.^2.*(L - x).^2;
 ErrMax = maximum(abs.(y-y_exact))
@@ -70,6 +67,10 @@ print("\n")
 display(ErrMax)
 print("\n")
 
-pyplot(leg=false, ticks=nothing)
-x = y = linspace(-5, 5, 40)
-zs = zeros(0,40)
+# this method uses the GR plotting backend
+gr()
+
+p1 = scatter(x,y);
+p2 = plot(x,abs.(y-y_exact), title="Error");
+plot(p1,p2,layout=(2,1))
+plot!(x,y_exact, title="Both ends fixed displacement")
