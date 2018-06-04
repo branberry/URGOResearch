@@ -1,0 +1,1 @@
+copy C:\Users\wowbo\AppData\Local\Temp\*.gif
