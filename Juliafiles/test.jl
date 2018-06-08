@@ -4,18 +4,18 @@ function addBlock(f,section)
     dist = ceil(block_length/h)
 
     # Define the starting distance of the block:
-    start = section
-    trunc(Int,start);
+    start = trunc(Int,section);
 
     # Define the segment the block is being applied to:
-    finish = start + dist;
+    finish = trunc(Int, start + dist);
 
-    trunc(Int, finish);
     for i = trunc(Int,start):trunc(Int, finish)
         # I divide the block_mass by dist because dist represents the number of segments
         # The block is being applied to.
         f[i] = -h^4/(E*I) * (w +  block_mass_per_unit);
     end
+
+    return [start finish]';
 end
 
 L = 10; # length = 10 m
@@ -92,7 +92,7 @@ print("\n")
 gr()
 
 # final starting point for block to be placed on board
-plot(x,y,ylim=(-3.5,0))
+plot(x,y,ylim=(-3.5,0),title="Block on Beam")
 last = trunc(Int,n-(n/10))
 print(last)
 print("\n\n")
@@ -107,9 +107,9 @@ print("\n\n")
         A[i,i-1] = A[i,i+1] = -4;
         A[i,i-2] = A[i,i+2] = 1; 
     end
-    addBlock(f,j)
+    block = addBlock(f,j)
     y = A\f;
-
+    scatter!(block,[y[block[1]] y[block[2]]]')
     plot(x,y,ylim=(-3.5,0))
 end every 1
 
