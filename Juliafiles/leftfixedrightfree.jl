@@ -1,5 +1,16 @@
 using Plots
-function addBlock(f,section)
+function addBlock(f,section,h)
+    block_rho = 750; # the mass density of wood
+    block_length = 1; # in meters, the length of the block is 1m
+    block_height = 1; # in meters, the height of the block is .2m, or 20cm
+
+    # to conform to the width of the width of the board so the whole block is in contact with the board,
+    # (using the mass density of steel now)
+    # the block's width will simply be the boards width, b.  Computing the mass, we get:
+    block_mass = block_rho*block_height*block_length*b;
+
+    # Alternatively, we can compute the mass per unit length
+    block_mass_per_unit = block_rho*block_height*g*b;
     # Define the number of subintervals where the block is applying force
     dist = ceil(block_length/h)
 
@@ -27,17 +38,7 @@ rho = 7850; # mass density of steel = 7850 kg/m^3
 g = 9.81; # acceleration due to gravity = 9.81 m/s^2
 w = rho*b*d*g; # weight of the beam per unit length (will be our f)
 
-block_rho = 750; # the mass density of wood
-block_length = 1; # in meters, the length of the block is 1m
-block_height = 1; # in meters, the height of the block is .2m, or 20cm
 
-# to conform to the width of the width of the board so the whole block is in contact with the board,
-# (using the mass density of steel now)
-# the block's width will simply be the boards width, b.  Computing the mass, we get:
-block_mass = block_rho*block_height*block_length*b;
-
-# Alternatively, we can compute the mass per unit length
-block_mass_per_unit = block_rho*block_height*g*b;
 
 n = 100; # number of subintervals on [0, L]
 h = L/n; # discretization spacing
@@ -107,7 +108,7 @@ blockPoints = ones(N,1);
         A[i,i-1] = A[i,i+1] = -4;
         A[i,i-2] = A[i,i+2] = 1; 
     end
-    block = addBlock(f,j)
+    block = addBlock(f,j,h)
     y = A\f;
     blockPoints = ones(N,1);
     blockPoints[block[1]] = y[block[1]];
